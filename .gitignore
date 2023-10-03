@@ -1,0 +1,16 @@
+cpadmin/assets/*
+cpadmin/ckeditor/*
+cpadmin/ckfinder/*
+cpadmin/class/*
+cpadmin/include/*
+cpadmin/pagination/*
+cpadmin/dashboard.php
+cpadmin/home.php
+cpadmin/index.php
+cpadmin/leave_add.php
+cpadmin/leave_view.php
+cpadmin/leave_view_process.php
+cpadmin/login_process.php
+cpadmin/logout.php
+cpadmin/logout_sess.php
+cpadmin/orders_created_by_report.php
