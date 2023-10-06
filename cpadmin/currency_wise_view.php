@@ -75,7 +75,7 @@
         // Set the default "To Date" to 6 months from the current date and initialize the datepicker
         $('#toDate').val(toDate.toLocaleDateString('en-US', {
             year: 'numeric',
-            month: '2-digit',
+            month: '2-digit',   
             day: '2-digit'
         }));
         $('#toDate').datepicker('update');
