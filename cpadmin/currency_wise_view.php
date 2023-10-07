@@ -35,7 +35,7 @@
                 <th>Website Name</th>
                 <th>Currency name</th>
                 <th>No. of Orders Completed</th>
-                <th>Total Amount </th>
+                <th>Total Amount (Without VAT)</th>
             </tr>
         </thead>
         <tbody>
@@ -50,8 +50,6 @@
     </table>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 <script>
     $(document).ready(function() {
         // Calculate the date 6 months from the current date
