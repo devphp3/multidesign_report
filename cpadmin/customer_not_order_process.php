@@ -36,7 +36,15 @@ $query .= ")";
 // Apply search filter
 $searchValue = $_POST['search']['value'];
 if (!empty($searchValue)) {
-    $query .= " AND (digitizing_member.id LIKE '%$searchValue%' OR digitizing_member.username LIKE '%$searchValue%' OR digitizing_website.website_name LIKE '%$searchValue%')";
+    $query .= " AND (
+        digitizing_member.id LIKE '%$searchValue%'
+        OR digitizing_member.username LIKE '%$searchValue%'
+        OR digitizing_member.sku LIKE '%$searchValue%'
+        OR digitizing_member.company_name LIKE '%$searchValue%'
+        OR digitizing_member.email LIKE '%$searchValue%'
+        OR digitizing_member.mobile LIKE '%$searchValue%'
+        OR digitizing_website.website_name LIKE '%$searchValue%'
+    )";    
 }
 
 // Execute the query and fetch results
