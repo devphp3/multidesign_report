@@ -1,82 +1,75 @@
-<div class="container">
-    <h1>Website Sales Report</h1>
-    <div class="row">
-        <div class="col-md-3">
-            <label for="fromDate">From Date:</label>
-            <input type="text" id="fromDate" class="form-control datepicker">
-        </div>
-        <div class="col-md-3">
-            <label for="toDate">To Date:</label>
-            <input type="text" id="toDate" class="form-control datepicker">
-        </div>
-        <div class="col-md-3">
-            <label for="website">Select Website:</label>
-            <select id="website" class="form-control">
-                <option value="">All Websites</option>
-                <?php
-                $sql = "SELECT id, website_name FROM digitizing_website";
-                $result = $db->query($sql);
-                if (is_array($result)) {
-                    foreach ($result as $row) {
-                        // Generate options here
-                        echo "<option value='" . $row["id"] . "'>" . $row["website_name"] . "</option>";
-                    }
-                }
-                ?>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <button id="applyFilter" class="btn btn-primary">Submit</button>
-        </div>
+
+<h1>Currency Wise Report</h1>
+<div class="row">
+    <div class="col-md-3">
+        <label for="fromDate">Order complated From Date:</label>
+        <input type="text" id="fromDate" class="form-control datepicker">
     </div>
-    <table id="reportTable" class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Website Name</th>
-                <th>Currency name</th>
-                <th>No. of Orders Completed</th>
-                <th>Total Amount (Without VAT)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="2">Total:</th>
-                <th id="totalOrdersCompleted">0</th>
-                <th></th> <!-- Leave this column empty for alignment -->
-            </tr>
-        </tfoot>
-    </table>
+    <div class="col-md-3">
+        <label for="toDate">Order complated To Date:</label>
+        <input type="text" id="toDate" class="form-control datepicker">
+    </div>
+    <div class="col-md-3">
+        <label for="website">Select Website:</label>
+        <select id="website" class="form-control">
+            <option value="">All Websites</option>
+            <?php
+            $sql = "SELECT id, website_name FROM digitizing_website";
+            $result = $db->query($sql);
+            if (is_array($result)) {
+                foreach ($result as $row) {
+                    // Generate options here
+                    echo "<option value='" . $row["id"] . "'>" . $row["website_name"] . "</option>";
+                }
+            }
+            ?>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <button id="applyFilter" class="btn btn-primary">Submit</button>
+    </div>
+</div>
+<div class="table-responsive">
+<table id="reportTable" class="table table-bordered border table-hover">
+    <thead>
+        <tr>
+            <th>Website Name</th>
+            <th>Currency name</th>
+            <th>No. of Orders Completed</th>
+            <th>Total Amount (Without VAT)</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="2">Total:</th>
+            <th id="totalOrdersCompleted">0</th>
+            <th></th> <!-- Leave this column empty for alignment -->
+        </tr>
+    </tfoot>
+</table>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script>
     $(document).ready(function() {
-        // Calculate the date 6 months from the current date
         var currentDate = new Date();
         var toDate = new Date();
-        toDate.setMonth(currentDate.getMonth() + 6);
+        toDate.setMonth(currentDate.getMonth() + 1);
 
         $('.datepicker').datepicker({
-            format: 'mm/dd/yyyy', // Set the date format to "d-m-Y"
+            format: 'dd-mm-yyyy', // Set the date format to "dd-mm-yyyy"
             autoclose: true
         });
 
         // Set the default "From Date" to the current date and initialize the datepicker
-        $('#fromDate').val(currentDate.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit'
-        }));
-        $('#fromDate').datepicker('update');
+        $('#toDate').val(moment(currentDate).format('DD-MM-YYYY')); // Use moment.js for formatting
+        $('#toDate').datepicker('update');
 
         // Set the default "To Date" to 6 months from the current date and initialize the datepicker
-        $('#toDate').val(toDate.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: '2-digit',   
-            day: '2-digit'
-        }));
-        $('#toDate').datepicker('update');
+        $('#fromDate').val(moment(toDate).format('DD-MM-YYYY')); // Use moment.js for formatting
+        $('#fromDate').datepicker('update');
 
         var table = $('#reportTable').DataTable({
             processing: true,

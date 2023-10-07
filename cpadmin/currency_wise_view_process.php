@@ -25,12 +25,12 @@ INNER JOIN digitizing_website DW ON DM.website_id = DW.id
 INNER JOIN digitizing_objectmeta DOB ON DM.currency_id = DOB.id
 WHERE DO.is_status IN (3, 7)";
 
-if (!empty($fromDate)) {
-    $query .= " AND DO.order_completetion_date >= '$fromDate'";
+if (!empty($toDate)) {
+    $query .= " AND DO.order_completetion_date >= '$toDate'";
 }
 
-if (!empty($toDate)) {
-    $query .= " AND DO.order_completetion_date <= '$toDate'";
+if (!empty($fromDate)) {
+    $query .= " AND DO.order_completetion_date <= '$fromDate'";
 }
 
 if (!empty($websiteId)) {
