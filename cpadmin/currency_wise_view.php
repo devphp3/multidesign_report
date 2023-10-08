@@ -119,7 +119,6 @@
             var timeDiff = toDateObj - fromDateObj;
 
             var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
-            console.log(yearsDiff);
             if (yearsDiff < 2) {
                 table.ajax.url('currency_wise_view_process.php?fromDate=' + fromDate + '&toDate=' + toDate + '&websiteId=' + websiteId).load();
             } else {
