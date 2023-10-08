@@ -64,6 +64,7 @@
             processing: true,
             serverSide: true,
             searching: false,
+            info: false,
             pageLength: 100, // Set the page length to 100 records per page
             ajax: {
                 url: 'customer_not_order_process.php',

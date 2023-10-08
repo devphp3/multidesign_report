@@ -6,6 +6,8 @@ $days = isset($_POST['days']) ? intval($_POST['days']) : 30;
 $websiteId = isset($_POST['websiteId']) ? intval($_POST['websiteId']) : null;
 $businessType = isset($_POST['businessType']) ? $_POST['businessType'] : null;
 $activeStatus = isset($_POST['activeStatus']) ? $_POST['activeStatus'] : null;
+$start = isset($_POST['start']) ? $_POST['start'] : 0;
+$length = isset($_POST['length']) ? $_POST['length'] : 100;
 
 $orderQuery = "SELECT DISTINCT user_id
 FROM digitizing_order
@@ -45,22 +47,24 @@ if ($businessType != '') {
 }
 
 if ($activeStatus != '') {
-    // Quote the $activeStatus value
     $secondQuery .= " AND digitizing_member.is_active = '$activeStatus'";
+}else{
+    $secondQuery .= " AND digitizing_member.is_active = '1'";
 }
-
+$total = $db->query($secondQuery);
+$recordCount = count($total);
+$secondQuery .= " LIMIT $start, $length";
 $result = $db->query($secondQuery);
 
 $filteredData = [];
 foreach ($result as $row) {
     $filteredData[] = $row;
 }
-
 // Prepare the JSON response
 $response = [
     'draw' => isset($_POST['draw']) ? intval($_POST['draw']) : 0,
-    'recordsTotal' => count($filteredData),  // Total records (not just the ones on the current page)
-    'recordsFiltered' => count($filteredData),  // Total records after filtering
+    'recordsTotal' => $filteredData,  // Total records (not just the ones on the current page)
+    'recordsFiltered' => $recordCount,  // Total records after filtering
     'data' => $filteredData,  // Array of data rows
 ];
 

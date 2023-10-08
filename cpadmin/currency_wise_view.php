@@ -56,7 +56,7 @@
     $(document).ready(function() {
         var currentDate = new Date();
         var toDate = new Date();
-        toDate.setMonth(currentDate.getMonth() + 1);
+        toDate.setMonth(currentDate.getMonth() - 1);
 
         $('.datepicker').datepicker({
             format: 'dd-mm-yyyy', // Set the date format to "dd-mm-yyyy"
@@ -119,7 +119,7 @@
             var timeDiff = toDateObj - fromDateObj;
 
             var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
-
+            console.log(yearsDiff);
             if (yearsDiff < 2) {
                 table.ajax.url('currency_wise_view_process.php?fromDate=' + fromDate + '&toDate=' + toDate + '&websiteId=' + websiteId).load();
             } else {
