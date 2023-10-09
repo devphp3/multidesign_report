@@ -51,6 +51,14 @@ if ($activeStatus != '') {
 }else{
     $secondQuery .= " AND digitizing_member.is_active = '1'";
 }
+
+$searchValue = $_POST['search']['value'];
+if (!empty($searchValue)) {
+    $secondQuery .= " AND ( digitizing_member.sku LIKE '%$searchValue%'
+        OR digitizing_member.company_name LIKE '%$searchValue%'
+        OR digitizing_member.email LIKE '%$searchValue%'
+    )";
+}
 $total = $db->query($secondQuery);
 $recordCount = count($total);
 $secondQuery .= " LIMIT $start, $length";
