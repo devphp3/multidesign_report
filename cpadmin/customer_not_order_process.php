@@ -59,8 +59,9 @@ if (!empty($searchValue)) {
         OR digitizing_member.email LIKE '%$searchValue%'
     )";
 }
-$total = $db->query($secondQuery);
-$recordCount = count($total);
+$totalRecordsQuery = "SELECT COUNT(*) AS total FROM ($secondQuery) AS subquery";
+$totalRecordsResult = $db->query($totalRecordsQuery);
+$totalRecords = $totalRecordsResult[0]['total'];
 $secondQuery .= " LIMIT $start, $length";
 $result = $db->query($secondQuery);
 
@@ -71,8 +72,8 @@ foreach ($result as $row) {
 // Prepare the JSON response
 $response = [
     'draw' => isset($_POST['draw']) ? intval($_POST['draw']) : 0,
-    'recordsTotal' => $filteredData,  // Total records (not just the ones on the current page)
-    'recordsFiltered' => $recordCount,  // Total records after filtering
+    'recordsTotal' => $totalRecords,  // Total records (not just the ones on the current page)
+    'recordsFiltered' => $totalRecords,  // Total records after filtering
     'data' => $filteredData,  // Array of data rows
 ];
 
