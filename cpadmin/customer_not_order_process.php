@@ -9,54 +9,58 @@ $activeStatus = isset($_POST['activeStatus']) ? $_POST['activeStatus'] : null;
 $start = isset($_POST['start']) ? $_POST['start'] : 0;
 $length = isset($_POST['length']) ? $_POST['length'] : 100;
 
-$orderQuery = "SELECT DISTINCT user_id
-FROM digitizing_order
-WHERE order_datetime >= DATE_SUB(NOW(), INTERVAL $days DAY)";
-$result1 = $db->query($orderQuery);
-
-// Fetch the user IDs from the result set and create a comma-separated list
-$userIdsList = [];
-foreach ($result1 as $row) {
-    $userIdsList[] = $row['user_id'];
-}
-
-$userIdsList = implode(',', $userIdsList);
-
 $secondQuery = "SELECT DISTINCT
-    digitizing_member.id,
-    digitizing_member.username,
-    digitizing_member.sku,
-    digitizing_member.company_name,
-    digitizing_member.email,
-    digitizing_member.mobile,
-    digitizing_website.website_name
-FROM digitizing_member
-LEFT JOIN digitizing_customer_price_settings ON digitizing_member.customer_price_setting_id = digitizing_customer_price_settings.id
-LEFT JOIN digitizing_website ON digitizing_member.website_id = digitizing_website.id
-WHERE digitizing_member.user_type = 0
-    AND digitizing_member.id NOT IN ('$userIdsList')";
+dm.id,
+dm.username,
+dm.sku,
+dm.company_name,
+dm.email,
+dm.mobile,
+dw.website_name
+FROM
+digitizing_member dm
+LEFT JOIN digitizing_order AS dmo
+ON
+dm.id =
+dmo.user_id
+LEFT JOIN digitizing_website dw ON
+dm.website_id = dw.id
+WHERE
+dm.user_type = 0 AND(
+dmo.order_datetime IS NULL OR
+dmo.order_datetime =(
+    SELECT
+        MAX(order_datetime)
+    FROM
+        digitizing_order
+    WHERE
+        user_id = dm.id
+)
+) AND dw.website_name IS NOT NULL AND(
+dmo.order_datetime IS NULL OR
+dmo.order_datetime < DATE_SUB(NOW(), INTERVAL $days DAY))";
 
 // Add website filter if a specific website is selected
 if (!empty($websiteId)) {
-    $secondQuery .= " AND digitizing_member.website_id = $websiteId";
+    $secondQuery .= " AND dm.website_id = $websiteId";
 }
 
 if ($businessType != '') {
     // Quote the $businessType value
-    $secondQuery .= " AND digitizing_member.customer_price_setting_id = '$businessType'";
+    $secondQuery .= " AND dm.customer_price_setting_id = '$businessType'";
 }
 
 if ($activeStatus != '') {
-    $secondQuery .= " AND digitizing_member.is_active = '$activeStatus'";
-}else{
-    $secondQuery .= " AND digitizing_member.is_active = '1'";
+    $secondQuery .= " AND dm.is_active = '$activeStatus'";
+} else {
+    $secondQuery .= " AND dm.is_active = '1'";
 }
 
 $searchValue = $_POST['search']['value'];
 if (!empty($searchValue)) {
-    $secondQuery .= " AND ( digitizing_member.sku LIKE '%$searchValue%'
-        OR digitizing_member.company_name LIKE '%$searchValue%'
-        OR digitizing_member.email LIKE '%$searchValue%'
+    $secondQuery .= " AND ( dm.sku LIKE '%$searchValue%'
+        OR dm.company_name LIKE '%$searchValue%'
+        OR dm.email LIKE '%$searchValue%'
     )";
 }
 $totalRecordsQuery = "SELECT COUNT(*) AS total FROM ($secondQuery) AS subquery";

@@ -1,4 +1,3 @@
-
 <h1>Currency Wise Report</h1>
 <div class="row">
     <div class="col-md-3">
@@ -30,25 +29,25 @@
     </div>
 </div>
 <div class="table-responsive">
-<table id="reportTable" class="table table-bordered border table-hover">
-    <thead>
-        <tr>
-            <th>Website Name</th>
-            <th>Currency name</th>
-            <th>No. of Orders Completed</th>
-            <th>Total Amount (Without VAT)</th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-    <tfoot>
-        <tr>
-            <th colspan="2">Total:</th>
-            <th id="totalOrdersCompleted">0</th>
-            <th></th> <!-- Leave this column empty for alignment -->
-        </tr>
-    </tfoot>
-</table>
+    <table id="reportTable" class="table table-bordered border table-hover">
+        <thead>
+            <tr>
+                <th>Website Name</th>
+                <th>Currency name</th>
+                <th>No. of Orders Completed</th>
+                <th>Total Amount (Without VAT)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">Total:</th>
+                <th id="totalOrdersCompleted">0</th>
+                <th></th> <!-- Leave this column empty for alignment -->
+            </tr>
+        </tfoot>
+    </table>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
@@ -60,7 +59,8 @@
 
         $('.datepicker').datepicker({
             format: 'dd-mm-yyyy', // Set the date format to "dd-mm-yyyy"
-            autoclose: true
+            autoclose: true,
+            endDate: currentDate,
         });
 
         // Set the default "From Date" to the current date and initialize the datepicker
@@ -112,18 +112,20 @@
             var fromDate = $('#fromDate').val();
             var toDate = $('#toDate').val();
             var websiteId = $('#website').val();
-            
+
             var fromDateObj = new Date(fromDate);
             var toDateObj = new Date(toDate);
 
-            var timeDiff = toDateObj - fromDateObj;
-
-            var yearsDiff = timeDiff / (1000 * 3600 * 24 * 365.25);
-            if (yearsDiff < 2) {
+            var yearDiff = toDateObj.getFullYear() - fromDateObj.getFullYear();
+            var monthDiff = toDateObj.getMonth() - fromDateObj.getMonth();
+            var dayDiff = toDateObj.getDate() - fromDateObj.getDate();
+            console.log(yearDiff)
+            if (yearDiff < 2) {
                 table.ajax.url('currency_wise_view_process.php?fromDate=' + fromDate + '&toDate=' + toDate + '&websiteId=' + websiteId).load();
             } else {
                 alert("Date difference must be less than 2 years.");
             }
+
         });
 
         function calculateTotal() {
