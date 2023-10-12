@@ -1,11 +1,11 @@
 <h1>Currency Wise Report</h1>
 <div class="row">
     <div class="col-md-3">
-        <label for="fromDate">Order complated From Date:</label>
+        <label for="fromDate">Order completed From Date:</label>
         <input type="text" id="fromDate" class="form-control datepicker">
     </div>
     <div class="col-md-3">
-        <label for="toDate">Order complated To Date:</label>
+        <label for="toDate">Order completed To Date:</label>
         <input type="text" id="toDate" class="form-control datepicker">
     </div>
     <div class="col-md-3">
