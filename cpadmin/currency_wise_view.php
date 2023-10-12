@@ -1,16 +1,16 @@
 <h1>Currency Wise Report</h1>
-<div class="row">
+<div class="row d-flex align-items-end mb-24 pt-15">
     <div class="col-md-3">
         <label for="fromDate">Order completed From Date:</label>
-        <input type="text" id="fromDate" class="form-control datepicker">
+        <input type="text" id="fromDate" class="form-control datepicker box-shadow">
     </div>
     <div class="col-md-3">
         <label for="toDate">Order completed To Date:</label>
-        <input type="text" id="toDate" class="form-control datepicker">
+        <input type="text" id="toDate" class="form-control datepicker box-shadow">
     </div>
     <div class="col-md-3">
         <label for="website">Select Website:</label>
-        <select id="website" class="form-control">
+        <select id="website" class="form-control select-size">
             <option value="">All Websites</option>
             <?php
             $sql = "SELECT id, website_name FROM digitizing_website";
@@ -29,7 +29,7 @@
     </div>
 </div>
 <div class="table-responsive">
-    <table id="reportTable" class="table table-bordered border table-hover">
+    <table id="reportTable" class="table table-bordered border table-hover border">
         <thead>
             <tr>
                 <th>Website Name</th>
