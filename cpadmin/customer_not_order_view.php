@@ -1,12 +1,12 @@
-<h1>Member Report</h1>
-<div class="row">
+<h1>Customer did not order</h1>
+<div class="row d-flex align-items-end mb-24 pt-15">
     <div class="col-md-2">
         <label for="days">Days:</label>
-        <input type="number" id="days" class="form-control" value="30">
+        <input type="number" id="days" class="form-control select-size" value="30">
     </div>
     <div class="col-md-2">
         <label for="website">Select Website:</label>
-        <select id="website" class="form-control">
+        <select id="website" class="form-control select-size">
             <option value="">All Websites</option>
             <?php
             $sql = "SELECT id, website_name FROM digitizing_website";
@@ -21,7 +21,7 @@
     </div>
     <div class="col-md-3">
         <label for="businessType">Business/Non-Commercial:</label>
-        <select id="businessType" class="form-control">
+        <select id="businessType" class="form-control select-size">
             <option value="">All</option>
             <option value="6">Business</option>
             <option value="5">Non-Commercial</option>
@@ -29,7 +29,7 @@
     </div>
     <div class="col-md-2">
         <label for="activeStatus">Active/Inactive:</label>
-        <select id="activeStatus" class="form-control">
+        <select id="activeStatus" class="form-control select-size">
             <option value="">All</option>
             <option value="1">Active</option>
             <option value="0">Inactive</option>
@@ -42,7 +42,7 @@
     </div>
 </div>
 <div class="table-responsive">
-    <table id="reportTable" class="table table-bordered border table-hover">
+    <table id="reportTable" class="table table-bordered border table-hover border">
         <thead>
             <tr>
                 <th>Website</th>
