@@ -118,9 +118,13 @@
             var toformattedDate = todateParts[1] + "/" + todateParts[0] + "/" + todateParts[2];
             var date1 = new Date(formattedDate); 
             var date2 = new Date(toformattedDate);
+            if(date2 < date1){
+                alert("From date is always less then To date.");
+                return false;
+            }
             var Difference_In_Time = date2.getTime() - date1.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            if (Difference_In_Days < 730) {
+            if (Difference_In_Days <= 730) {
                 table.ajax.url('currency_wise_view_process.php?fromDate=' + fromDate + '&toDate=' + toDate + '&websiteId=' + websiteId).load();
             } else {
                 alert("Date difference must be less than 2 years.");
