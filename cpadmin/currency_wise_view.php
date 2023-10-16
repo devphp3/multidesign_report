@@ -109,18 +109,18 @@
         });
 
         $('#applyFilter').on('click', function() {
-            var fromDate = $('#fromDate').val();
-            var toDate = $('#toDate').val();
             var websiteId = $('#website').val();
-
-            var fromDateObj = new Date(fromDate);
-            var toDateObj = new Date(toDate);
-
-            var yearDiff = toDateObj.getFullYear() - fromDateObj.getFullYear();
-            var monthDiff = toDateObj.getMonth() - fromDateObj.getMonth();
-            var dayDiff = toDateObj.getDate() - fromDateObj.getDate();
-            console.log(yearDiff)
-            if (yearDiff < 2) {
+            var fromDate = $('#fromDate').val();
+            var dateParts = fromDate.split("-");
+            var formattedDate = dateParts[1] + "/" + dateParts[0] + "/" + dateParts[2];
+            var toDate = $('#toDate').val();
+            var todateParts = toDate.split("-");
+            var toformattedDate = todateParts[1] + "/" + todateParts[0] + "/" + todateParts[2];
+            var date1 = new Date(formattedDate); 
+            var date2 = new Date(toformattedDate);
+            var Difference_In_Time = date2.getTime() - date1.getTime();
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            if (Difference_In_Days < 730) {
                 table.ajax.url('currency_wise_view_process.php?fromDate=' + fromDate + '&toDate=' + toDate + '&websiteId=' + websiteId).load();
             } else {
                 alert("Date difference must be less than 2 years.");
